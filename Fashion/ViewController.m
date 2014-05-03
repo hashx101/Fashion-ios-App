@@ -163,7 +163,7 @@
     snapBehavior.damping = kDamping;
     s2.damping = kDamping;
     s3.damping = kDamping;
-
+ 
     dynamicAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
 
     [dynamicAnimator addBehavior:snapBehavior];
