@@ -13,7 +13,7 @@
 #define kRadius 150
 #define kDamping 0.3
 
-@interface ViewController () <FBLoginViewDelegate>
+@interface ViewController () 
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) UILabel *locationLabel;
 @property UISnapBehavior *snapBehavior, *s2, *s3;
@@ -349,77 +349,75 @@
 }
 
 
--(void) queryStatuses{
-
-    NSString *query =
+//-(void) queryStatuses{
+//
+//    NSString *query =
 //    @"SELECT text, fromid FROM comment WHERE post_id in( SELECT post_id FROM stream WHERE source_id = me() LIMIT 300,100)";
-    @"SELECT uid, name, pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())";
+//    @"SELECT uid, name, pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())";
 //    @"SELECT message, created_time  FROM stream  WHERE source_id = me() LIMIT 800";
-    //501520061 chel
-    //662519174 me
 //    @"SELECT message FROM stream WHERE filter_key IN (SELECT filter_key FROM stream_filter WHERE uid = me() AND type = 'newsfeed') AND type=46 LIMIT 1000";
-    
-    NSDictionary *queryParam = @{ @"q": query };
-
-    [FBRequestConnection startWithGraphPath:@"/fql"
-                                 parameters:queryParam
-                                 HTTPMethod:@"GET"
-                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                              if (error) {
-                                  NSLog(@"Error: %@", [error localizedDescription]);
-                              }else{
+//
+//    NSDictionary *queryParam = @{ @"q": query };
+//
+//    [FBRequestConnection startWithGraphPath:@"/fql"
+//                                 parameters:queryParam
+//                                 HTTPMethod:@"GET"
+//                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//                              if (error) {
+//                                  NSLog(@"Error: %@", [error localizedDescription]);
+//                              }else{
 //                                  NSLog(@"%d", [[result valueForKey:@"data"] count]);
-                                  NSLog(@"%@", result);
-                              }
-                          }];
-    
-}
+//                                  NSLog(@"%@", result);
+//                              }
+//                          }];
+//    
+//}
 
 
--(void)queryDevices{
-    NSString *query =
-    //    @"SELECT uid, name, pic_square FROM user WHERE is_app_user  AND uid IN (SELECT uid2 FROM friend WHERE uid1 = me())";
-    @"SELECT uid, name, about_me, devices FROM user WHERE uid IN "
-    @"(SELECT uid2 FROM friend WHERE uid1 = me() ) AND devices != ''";
-    
-    // Set up the query parameter
-    NSDictionary *queryParam = @{ @"q": query };
-    // Make the API request that uses FQL
-    [FBRequestConnection startWithGraphPath:@"/fql"
-                                 parameters:queryParam
-                                 HTTPMethod:@"GET"
-                          completionHandler:^(FBRequestConnection *connection,
-                                              id result,
-                                              NSError *error) {
-                              if (error) {
-                                  NSLog(@"Error: %@", [error localizedDescription]);
-                              } else {
-                                  //                                  NSLog(@"Result: %@", result);
-                                  NSMutableSet *android = [[NSMutableSet alloc] init];
-                                  NSMutableSet *iOS = [NSMutableSet new];
-                                  
-                                  for (NSDictionary *dict in [result objectForKey:@"data"]) {
-                                      //                                      NSLog(@"%@\n %@", [dict objectForKey:@"about_me"], [dict objectForKey:@"inspirational_people"]);
-                                      for (NSDictionary *dev in [dict objectForKey:@"devices"]) {
-                                          NSString *OS = [dev objectForKey:@"os"];
-                                          if ([OS isEqualToString:@"Android"]) {
-                                              [android addObject:[dict objectForKey:@"name"]];
-                                          }
-                                          if([OS isEqualToString:@"iOS"]){
-                                              [iOS addObject:[dict objectForKey:@"name"]];
-                                          }
-                                          
-                                      }
-                                  }
-                                  NSLog(@"Android: %lu %@ ",(unsigned long)[android count], android);
-                                  NSLog(@"iOS: %lu %@ ", (unsigned long)[iOS count], iOS);
-                                  [android intersectSet:iOS];
-                                  NSLog(@"Intersect: %lu %@", (unsigned long)[android count], android);
-                                  
-                              }
-                          }];
-
-}
+//-(void)queryDevices{
+//    NSString *query =
+//    //    @"SELECT uid, name, pic_square FROM user WHERE is_app_user  AND uid IN (SELECT uid2 FROM friend WHERE uid1 = me())";
+//    @"SELECT uid, name, about_me, devices FROM user WHERE uid IN "
+//    @"(SELECT uid2 FROM friend WHERE uid1 = me() ) AND devices != ''";
+//    
+//    // Set up the query parameter
+//    NSDictionary *queryParam = @{ @"q": query };
+//    // Make the API request that uses FQL
+//    [FBRequestConnection startWithGraphPath:@"/fql"
+//                                 parameters:queryParam
+//                                 HTTPMethod:@"GET"
+//                          completionHandler:^(FBRequestConnection *connection,
+//                                              id result,
+//                                              NSError *error) {
+//                              if (error) {
+//                                  NSLog(@"Error: %@", [error localizedDescription]);
+//                              } else {
+//                                  //                                  NSLog(@"Result: %@", result);
+//                                  NSMutableSet *android = [[NSMutableSet alloc] init];
+//                                  NSMutableSet *iOS = [NSMutableSet new];
+//                                  
+//                                  for (NSDictionary *dict in [result objectForKey:@"data"]) {
+//                                      //                                      NSLog(@"%@\n %@", [dict objectForKey:@"about_me"], [dict objectForKey:@"inspirational_people"]);
+//                                      for (NSDictionary *dev in [dict objectForKey:@"devices"]) {
+//                                          NSString *OS = [dev objectForKey:@"os"];
+//                                          if ([OS isEqualToString:@"Android"]) {
+//                                              [android addObject:[dict objectForKey:@"name"]];
+//                                          }
+//                                          if([OS isEqualToString:@"iOS"]){
+//                                              [iOS addObject:[dict objectForKey:@"name"]];
+//                                          }
+//                                          
+//                                      }
+//                                  }
+//                                  NSLog(@"Android: %lu %@ ",(unsigned long)[android count], android);
+//                                  NSLog(@"iOS: %lu %@ ", (unsigned long)[iOS count], iOS);
+//                                  [android intersectSet:iOS];
+//                                  NSLog(@"Intersect: %lu %@", (unsigned long)[android count], android);
+//                                  
+//                              }
+//                          }];
+//
+//}
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
@@ -460,57 +458,57 @@
 
 
 
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
-                            user:(id<FBGraphUser>)user {
-    // here we use helper properties of FBGraphUser to dot-through to first_name and
-    // id properties of the json response from the server; alternatively we could use
-    // NSDictionary methods such as objectForKey to get values from the my json object
-    NSLog(@"%@", [NSString stringWithFormat:@"Hello %@ %@!", user.first_name, user.id]);
-}
-
-
-
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    NSString *alertMessage, *alertTitle;
-    
-    // If the user should perform an action outside of you app to recover,
-    // the SDK will provide a message for the user, you just need to surface it.
-    // This conveniently handles cases like Facebook password change or unverified Facebook accounts.
-    if ([FBErrorUtility shouldNotifyUserForError:error]) {
-        alertTitle = @"Facebook error";
-        alertMessage = [FBErrorUtility userMessageForError:error];
-        
-        // This code will handle session closures that happen outside of the app
-        // You can take a look at our error handling guide to know more about it
-        // https://developers.facebook.com/docs/ios/errors
-    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
-        alertTitle = @"Session Error";
-        alertMessage = @"Your current session is no longer valid. Please log in again.";
-        
-        // If the user has cancelled a login, we will do nothing.
-        // You can also choose to show the user a message if cancelling login will result in
-        // the user not being able to complete a task they had initiated in your app
-        // (like accessing FB-stored information or posting to Facebook)
-    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-        NSLog(@"user cancelled login");
-        
-        // For simplicity, this sample handles other errors with a generic message
-        // You can checkout our error handling guide for more detailed information
-        // https://developers.facebook.com/docs/ios/errors
-    } else {
-        alertTitle  = @"Something went wrong";
-        alertMessage = @"Please try again later.";
-        NSLog(@"Unexpected error:%@", error);
-    }
-    
-    if (alertMessage) {
-        [[[UIAlertView alloc] initWithTitle:alertTitle
-                                    message:alertMessage
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                           otherButtonTitles:nil] show];
-    }
-}
+//- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+//                            user:(id<FBGraphUser>)user {
+//    // here we use helper properties of FBGraphUser to dot-through to first_name and
+//    // id properties of the json response from the server; alternatively we could use
+//    // NSDictionary methods such as objectForKey to get values from the my json object
+//    NSLog(@"%@", [NSString stringWithFormat:@"Hello %@ %@!", user.first_name, user.id]);
+//}
+//
+//
+//
+//- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
+//    NSString *alertMessage, *alertTitle;
+//    
+//    // If the user should perform an action outside of you app to recover,
+//    // the SDK will provide a message for the user, you just need to surface it.
+//    // This conveniently handles cases like Facebook password change or unverified Facebook accounts.
+//    if ([FBErrorUtility shouldNotifyUserForError:error]) {
+//        alertTitle = @"Facebook error";
+//        alertMessage = [FBErrorUtility userMessageForError:error];
+//        
+//        // This code will handle session closures that happen outside of the app
+//        // You can take a look at our error handling guide to know more about it
+//        // https://developers.facebook.com/docs/ios/errors
+//    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
+//        alertTitle = @"Session Error";
+//        alertMessage = @"Your current session is no longer valid. Please log in again.";
+//        
+//        // If the user has cancelled a login, we will do nothing.
+//        // You can also choose to show the user a message if cancelling login will result in
+//        // the user not being able to complete a task they had initiated in your app
+//        // (like accessing FB-stored information or posting to Facebook)
+//    } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
+//        NSLog(@"user cancelled login");
+//        
+//        // For simplicity, this sample handles other errors with a generic message
+//        // You can checkout our error handling guide for more detailed information
+//        // https://developers.facebook.com/docs/ios/errors
+//    } else {
+//        alertTitle  = @"Something went wrong";
+//        alertMessage = @"Please try again later.";
+//        NSLog(@"Unexpected error:%@", error);
+//    }
+//    
+//    if (alertMessage) {
+//        [[[UIAlertView alloc] initWithTitle:alertTitle
+//                                    message:alertMessage
+//                                   delegate:nil
+//                          cancelButtonTitle:@"OK"
+//                           otherButtonTitles:nil] show];
+//    }
+//}
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }

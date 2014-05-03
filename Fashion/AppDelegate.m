@@ -15,7 +15,7 @@
 {
     // Override point for customization after application launch.
     
-    [ViewController class];
+//    [ViewController class];
     
     return YES;
 }

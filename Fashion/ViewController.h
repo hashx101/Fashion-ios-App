@@ -10,7 +10,7 @@
 #import <Accounts/Accounts.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 
 @interface ViewController : UIViewController <CLLocationManagerDelegate>
 
