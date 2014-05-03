@@ -38,10 +38,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>FacebookAppID</key>
-	<string>265671546930724</string>
-	<key>FacebookDisplayName</key>
-	<string>Fashion</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
